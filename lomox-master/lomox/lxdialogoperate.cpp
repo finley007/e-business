@@ -15,6 +15,11 @@
 #include "lxbasewin.h"
 #include "lxdownloadmanager.h"
 #include <QtPrintSupport/QPrintPreviewDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#include <QtPrintSupport/QPrinterInfo>
+#include <iostream>
+#include <sstream>
 
 LxDialogBase::LxDialogBase(QObject* object, QWebView* pWebView, QString strApiName, bool bshowloading, int gifW, int gifH)
 :LxOperate(object, pWebView, strApiName)
@@ -326,6 +331,88 @@ void LxDialogBase::printPreview()
 	connect(dialog, SIGNAL(paintRequested(QPrinter*)),
 		m_ptrWebView, SLOT(print(QPrinter*)));
 	dialog->exec();
+}
+
+QVariantMap LxDialogBase::print(QString printerName, QString content, int isPreview)
+{
+	LogEx("void LomoX::print( QString printerName, QString content )");
+	LogEx(("Printer name:" + printerName).toLocal8Bit().data());
+	LogEx(("Printer content:" + content).toLocal8Bit().data());
+	contentForPrint = content;
+	QList <QPrinterInfo> plist = QPrinterInfo::availablePrinters();
+	LogEx("All available printers:");
+	bool printerAvailable = false;
+	for (QPrinterInfo info : plist) {
+		LogEx(info.printerName().toLocal8Bit().data());
+		if (printerName == info.printerName()) {
+			printerAvailable = true;
+			break;
+		}
+	}
+	int resultCode = 0;
+	QString resultInfo = "success";
+	if (printerAvailable) {
+		QPrinter printer(QPrinter::HighResolution);
+		QPrintPreviewDialog preview(&printer);
+		printer.setPrinterName(printerName);
+		printer.setFullPage(true);
+		if (isPreview) {
+			connect(&preview, SIGNAL(paintRequested(QPrinter*)),
+				this, SLOT(print(QPrinter*)));
+			preview.exec();
+		} else {
+			printContent(printer, content);
+		}
+	} else {
+		resultCode = -1;
+		resultInfo = "The printer: " + printerName + " is unavailable";
+	}
+
+	QVariantMap *result = new QVariantMap;
+	QVariant *code = new QVariant(resultCode);
+	result->insert("resultCode", *code);
+	QVariant *info = new QVariant(resultInfo);
+	result->insert("resultInfo", *info);
+	return *result;
+}
+
+void LxDialogBase::print(QPrinter* printer) {
+	printContent(*printer, contentForPrint);
+}
+
+void LxDialogBase::printContent(QPrinter &printer, QString content)
+{
+	//计算在打印机的DPI下，58mm对应的点数
+	int dpi = printer.logicalDpiX();
+	int width = 58 * (dpi*1.0 / 25.4);//58mm
+
+	//用html来布局
+	//使用QWebPage来解析并输出解析后的文档到打印机
+	QWebPage page;
+	page.mainFrame()->setHtml(content.toLocal8Bit());
+
+	QWebFrame *frame = page.mainFrame();
+	frame->setTextSizeMultiplier(1.4);
+
+	//设置网页视口大小，因为我在html文档中用相对大小布局的
+	page.setViewportSize(QSize(width, frame->findFirstElement("div").geometry().height()));
+	LogEx("Content width:");
+	string sWidth = parseInt(width);
+	LogEx((char*)&sWidth);
+	LogEx("Content height:");
+	string sHeight = parseInt(frame->findFirstElement("div").geometry().height());
+	LogEx((char*)&sHeight);
+
+	//将网页通过painter打印出来
+	QPainter painter(&printer);
+	frame->render(&painter);
+}
+
+string LxDialogBase::parseInt(int value) 
+{
+	stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
 QVariant LxDialogBase::eval( QVariant code)

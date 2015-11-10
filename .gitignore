@@ -5,4 +5,15 @@ lomox-master/lomoxadmin/
 lomox-master/lomoxtest/
 lomox-master/lomoxwin32/
 lomox-master/lxWebEditPlugin/
+lomox-master/x64/
+lomox-master/lomox/GeneratedFiles/
+lomox-master/lomox/x64/
+lomox-master/lomox/Debug/
+lomox-master/Test/Debug/
+lomox-master/Test/x64/
+weixin/server/
+weixin/workspace/.metadata
 lomox-master/删除编译垃圾文件.bat
+weixin/workspace/RemoteSystemsTempFiles/.project
+lomox-master/ipch/test-b51735b7/test-b88949a4.ipch
+*.ipch

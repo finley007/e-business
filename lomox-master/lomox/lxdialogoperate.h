@@ -57,17 +57,22 @@ public slots:
     virtual void setHidden(bool hidden);
 
 	virtual void printPreview();
+	//打印订单接口
+	virtual QVariantMap print(QString printerName, QString content, int isPreview = 0);
 
     virtual QVariant eval( QVariant code);
     virtual QVariant toHTML();
     virtual void setHTML( QVariant code);
     virtual QObject* getCoreDialog();
+	void print(QPrinter* printer);
 private slots:
 	void downloadRequested(const QNetworkRequest &request);
 	void loadStarted(){};
 	void loadProgress(int progress){};
 	void loadFinished(bool);
 private:
+	string parseInt(int value);
+	void printContent(QPrinter &printer, QString content);
 	QUrl m_url;
     QWebFrame* m_mainFrame;
 	QLabel* m_label;
@@ -78,6 +83,7 @@ private:
 	double m_nHeight;
 	QMovie* m_movie;
 	QBoxLayout *m_layout;
+	QString contentForPrint;
 };
 
 
