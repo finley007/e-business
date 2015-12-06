@@ -5,3 +5,7 @@ abo.rongbo
 http://wx.sugarloud.com/#
 admin8
 admin8
+
+ftp:112.74.115.170
+ftp
+ftp2015xian
