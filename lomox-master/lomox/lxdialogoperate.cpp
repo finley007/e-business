@@ -389,18 +389,20 @@ void LxDialogBase::printContent(QPrinter &printer, QString content)
 	//用html来布局
 	//使用QWebPage来解析并输出解析后的文档到打印机
 	QWebPage page;
-	page.mainFrame()->setHtml(content.toLocal8Bit());
+	page.mainFrame()->setHtml(content);
 
 	QWebFrame *frame = page.mainFrame();
-	frame->setTextSizeMultiplier(1.4);
+	//可以调整打印字体大小，配置在config.ini中textsizemultiplier
+	LxOption* pOption = lxCoreApp->getOption();
+	frame->setTextSizeMultiplier(pOption->getTextSizeMultiplier());
 
 	//设置网页视口大小，因为我在html文档中用相对大小布局的
-	page.setViewportSize(QSize(width, frame->findFirstElement("div").geometry().height()));
+	page.setViewportSize(QSize(width, frame->findFirstElement("body").geometry().height()));
 	LogEx("Content width:");
 	string sWidth = parseInt(width);
 	LogEx((char*)&sWidth);
 	LogEx("Content height:");
-	string sHeight = parseInt(frame->findFirstElement("div").geometry().height());
+	string sHeight = parseInt(frame->findFirstElement("body").geometry().height());
 	LogEx((char*)&sHeight);
 
 	//将网页通过painter打印出来
