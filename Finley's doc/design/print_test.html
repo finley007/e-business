@@ -1,0 +1,33 @@
+﻿<!-- 用来测试json返回html能否正常打印 
+	调用服务地址http://ttmr.shuguolanduo.com/shop/index.php?act=store_dish_wepos_printer&op=getPrintInfo
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+ <head> 
+	<script src="http://code.jquery.com/jquery-1.4.1.min.js" type="text/javascript">//</script>
+	<script type="text/javascript">
+		function showAJAXResult(data) {
+			var obj = eval('('+data+')');
+			//alert(obj.stata);
+			//alert(obj.printer_name);
+			//alert(obj.print_data);
+			var result = LxDialog.print(obj.printer_name, obj.print_data);
+			alert(result.resultCode);
+		}
+
+		function print() {
+			$.ajax({     
+				type: 'Get',     
+				url:  'http://ttmr.shuguolanduo.com/shop/index.php?act=store_dish_wepos_printer&op=getPrintInfo',  
+				success: showAJAXResult,     
+				error: function(err) {     
+					alert(err.responseText);     
+				}     
+			});  
+		}
+	</script>	
+ </head> 
+ <body> 
+         <div><input type="submit" class="button" value="Print" onclick="print()"/></div>
+ </body>
+</html>

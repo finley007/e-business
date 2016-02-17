@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+ <head></head> 
+ <style type="text/css">
+  body {
+    margin-left:-8px;
+	margin-right:0px;
+	font-size:11px;
+	font-family:SimSun;
+	width:88%;
+  }
+
+  h3 {
+	text-align:center;
+	margin-bottom:0px;
+	font-size:14px;
+  }
+
+  hr.solid {
+    border:1px solid #000; 
+	height:1px;
+  }
+
+  span.col_2 {
+	float:right;
+	position:absolute;
+	right: 40px;
+  }
+ 
+  table {
+	width:100%;
+	text-align:center;	
+	border-bottom:1px solid;
+  }
+
+  table tr th {
+	border-top:1px solid;
+  }
+
+  div span.col_1 {
+	padding-left:30px;
+  }
+
+  div span.col_2 {
+	padding-right:8px; 
+	float:right;
+  }
+
+  b {
+	font-weight:normal;
+	font-size:12px;
+  }
+
+  th {
+	font-size:10px;
+  }
+  </style>
+ <body> 
+        <h3>{restaurant}</h3>
+		<hr class="solid">
+		<div style="padding-left:20px; padding-right:20px;">
+			<span>收银员: <b>{cashier}</b></span>
+			<span class="col_2">桌号: <b>{number}</b></span>
+		</div>
+		<table>
+		  <tr>
+			<th style="width:60%">菜品</th>
+			<th style="width:18%">数量</th>
+			<th style="width:18%">单价</th>
+			<th style="width:22%">金额</th>
+		  </tr>
+		  {order_list}
+		</table>
+		<div style="padding-top:3px">
+			<span class="col_1">总计: </span>
+			<span class="col_2"><b>{total}</b></span>
+		</div>
+		<div>
+			<span class="col_1">折扣: </span>
+			<span class="col_2"><b>{discount}</b></span>
+		</div>
+		<div style="padding-bottom:3px">
+			<span class="col_1">应收: </span>
+			<span class="col_2"><b>{price}</b></span>
+		</div>
+		<div style="border-top:1px solid; padding-top:3px">
+			<span class="col_1">实收: </span>
+			<span class="col_2"><b>{payment}</b></span>
+		</div>
+		<div>
+			<span class="col_1">找零: </span>
+			<span class="col_2"><b>{charge}</b></span>
+		</div>
+		<div style="text-align:center;padding-top:10px"><b>欢迎您的下次光临！！</b></div>
+		<div style="padding-left:5px;padding-top:15px">
+			<div>地址: <b>{address}</b></div>
+			<div>电话: <b>{phone}</b></div>
+			<div><b>{time} {day}</b></div>
+		</div>
+ </body>
+</html>
