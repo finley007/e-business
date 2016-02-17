@@ -51,6 +51,7 @@ public slots:
 	bool getNeedShowLoadingGif();
 	int getLoadingGifWidth();
 	int getLoadingGifHeight();
+	float getTextSizeMultiplier();
 
 private:
 	bool getValueFromIni(QString strKey, bool &bValue);

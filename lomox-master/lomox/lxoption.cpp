@@ -355,3 +355,18 @@ int LxOption::getLoadingGifHeight()
 	}
 	return -1;
 }
+
+float LxOption::getTextSizeMultiplier()
+{
+	QString strCfgPath = getConfgPath();
+	if (QFile::exists(strCfgPath))
+	{
+		QSettings qsetting(strCfgPath, QSettings::IniFormat, 0);
+		QVariant multiplier = qsetting.value(QString::fromLocal8Bit("/cfg/textsizemultiplier"), QVariant(1.8));
+		if (!multiplier.isNull() && multiplier.isValid())
+		{
+			return multiplier.toFloat();
+		}
+	}
+	return -1;
+}
