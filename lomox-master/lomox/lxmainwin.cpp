@@ -98,7 +98,7 @@ bool LxMainWindow::_initWidget()
 
 		if (pOption->getNeedShowMainNcFrame())
 		{
-			winType |=  Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint;
+			winType |=  Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint;
 		}
 		else
 		{
